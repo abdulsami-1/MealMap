@@ -154,8 +154,3 @@ npx prisma studio    # Open Prisma Studio (database GUI)
 npx prisma db push   # Sync schema to database
 ```
 
----
-
-## License
-
-MIT
