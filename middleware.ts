@@ -1,5 +1,7 @@
-import { auth } from "@/lib/auth";
-import { NextResponse } from "next/server";
+import NextAuth from "next-auth";
+import { authConfig } from "@/lib/auth.config";
+
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const { nextUrl, auth: session } = req;
@@ -12,16 +14,14 @@ export default auth((req) => {
   const isPublicRoute = isAuthPage || isApiRoute || nextUrl.pathname === "/";
 
   if (isLoggedIn && isAuthPage) {
-    return NextResponse.redirect(new URL("/dashboard", nextUrl));
+    return Response.redirect(new URL("/dashboard", nextUrl));
   }
 
   if (!isLoggedIn && !isPublicRoute) {
-    return NextResponse.redirect(
+    return Response.redirect(
       new URL(`/login?callbackUrl=${nextUrl.pathname}`, nextUrl)
     );
   }
-
-  return NextResponse.next();
 });
 
 export const config = {
